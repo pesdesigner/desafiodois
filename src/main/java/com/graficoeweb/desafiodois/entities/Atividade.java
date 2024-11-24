@@ -11,15 +11,28 @@ public class Atividade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @Column(columnDefinition = "TEXT")
     private String descricao;
     private Double preco;
+    @ManyToOne
+    @JoinColumn(name="categoria_id")
+    private Categoria categoria;
+    @ManyToOne
+    @JoinColumn(name="participante_id")
+    private Participante participante;
+    @OneToOne(mappedBy = "atividade", cascade = CascadeType.ALL)
+    private Bloco bloco;
+
     public Atividade(){}
 
-    public Atividade(Long id, String nome, String descricao, Double preco) {
+    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria, Participante participante, Bloco bloco) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
+        this.categoria = categoria;
+        this.participante = participante;
+        this.bloco = bloco;
     }
 
     public Long getId() {
@@ -52,6 +65,30 @@ public class Atividade {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Participante getParticipante() {
+        return participante;
+    }
+
+    public void setParticipante(Participante participante) {
+        this.participante = participante;
+    }
+
+    public Bloco getBloco() {
+        return bloco;
+    }
+
+    public void setBloco(Bloco bloco) {
+        this.bloco = bloco;
     }
 
     @Override

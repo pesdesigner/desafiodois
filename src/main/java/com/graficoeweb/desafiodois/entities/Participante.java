@@ -2,6 +2,8 @@ package com.graficoeweb.desafiodois.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,9 +13,13 @@ public class Participante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @Column(unique = true)
     private String email;
 
-    Participante(){}
+    @OneToMany(mappedBy = "participante")
+    private List<Atividade> atividades = new ArrayList<>();
+
+    public Participante(){}
 
     public Participante(Long id, String nome, String email) {
         this.id = id;
@@ -43,6 +49,10 @@ public class Participante {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Atividade> getAtividades() {
+        return atividades;
     }
 
     @Override
