@@ -2,9 +2,7 @@ package com.graficoeweb.desafiodois.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name="tb_participante")
@@ -16,8 +14,18 @@ public class Participante {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "participante")
-    private List<Atividade> atividades = new ArrayList<>();
+    /*
+    @ManyToOne
+    @JoinColumn(name = "atividade_id")
+    private Atividade atividade;
+
+
+     */
+    @ManyToMany
+        @JoinTable(name = "tb_participante_atividade",
+                joinColumns = @JoinColumn(name="participante_id"),
+                inverseJoinColumns = @JoinColumn(name = "atividade_id"))
+    private Set<Atividade> atividades = new HashSet<>();
 
     public Participante(){}
 
@@ -51,7 +59,7 @@ public class Participante {
         this.email = email;
     }
 
-    public List<Atividade> getAtividades() {
+    public Set<Atividade> getAtividades() {
         return atividades;
     }
 

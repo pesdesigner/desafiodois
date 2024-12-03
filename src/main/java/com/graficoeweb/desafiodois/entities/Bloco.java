@@ -17,17 +17,17 @@ public class Bloco {
     private Instant inicio;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant fim;
-
     @ManyToOne
-    @MapsId
+    @JoinColumn(name = "atividade_id")
     private Atividade atividade;
 
     public Bloco(){}
 
-    public Bloco(Long id, Instant inicio, Instant fim) {
+    public Bloco(Long id, Instant inicio, Instant fim, Atividade atividade) {
         this.id = id;
         this.inicio = inicio;
         this.fim = fim;
+        this.atividade = atividade;
     }
 
     public Long getId() {

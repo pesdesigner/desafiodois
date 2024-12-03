@@ -2,7 +2,7 @@ package com.graficoeweb.desafiodois.entities;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name="tb_atividade")
@@ -15,24 +15,26 @@ public class Atividade {
     private String descricao;
     private Double preco;
     @ManyToOne
-    @JoinColumn(name="categoria_id")
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
-    @ManyToOne
-    @JoinColumn(name="participante_id")
-    private Participante participante;
-    @OneToOne(mappedBy = "atividade", cascade = CascadeType.ALL)
-    private Bloco bloco;
+
+   // @OneToMany(mappedBy = "atividade")
+  //  private List<Participante> participantes = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "atividades")
+    private Set<Participante> participantes = new HashSet<>();
+
+    @OneToMany(mappedBy = "atividade")
+    private List<Bloco> blocos = new ArrayList<>();
 
     public Atividade(){}
 
-    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria, Participante participante, Bloco bloco) {
+    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.categoria = categoria;
-        this.participante = participante;
-        this.bloco = bloco;
     }
 
     public Long getId() {
@@ -75,21 +77,22 @@ public class Atividade {
         this.categoria = categoria;
     }
 
-    public Participante getParticipante() {
-        return participante;
+    public Set<Participante> getParticipantes() {
+        return participantes;
     }
 
-    public void setParticipante(Participante participante) {
-        this.participante = participante;
+       /*
+    public List<Participante> getParticipantes() {
+        return participantes;
     }
 
-    public Bloco getBloco() {
-        return bloco;
+     */
+
+    public List<Bloco> getBlocos() {
+        return blocos;
     }
 
-    public void setBloco(Bloco bloco) {
-        this.bloco = bloco;
-    }
+
 
     @Override
     public boolean equals(Object o) {
